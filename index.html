@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>红包雨</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+    <!--在iPhone 手机上禁止了把数字转化为拨号链接-->
+    <meta content="telephone=no" name="format-detection" />
+    <!--删除默认的苹果工具栏和菜单栏-->
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <!-- 网站开启对web app程序的支持，在web app应用下状态条（屏幕顶部条）的颜色，默认值为default（白色），可以定为black（黑色）和black-translucent（灰色半透明）-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/demo.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+    <link rel="stylesheet" type="text/css" href="layer_mobile/need/layer.css">
+    <style type="text/css">
+    body {
+        margin: 0;
+        padding: 0;
+        position: relative;
+        background-position: center;
+        width: 100%;
+        height: 100%;
+        overflow-y: hidden;
+        background: url(images/bj.jpg) no-repeat top left;
+        background-size: 100%;
+    }
+
+    .couten {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        overflow-y: hidden;
+        touch-action: none;
+    }
+
+    .couten li {
+        position: absolute;
+        animation: all 3s linear;
+        top: -100px;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    .couten li a {
+        display: block;
+    }
+
+    .mo {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .2);
+        z-index: 100;
+        display: none;
+    }
+
+    .mo .sen {
+        width: 70%;
+        height: 150px;
+        border-radius: 5px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+    }
+
+    .mo .sen img {
+        width: 60%;
+        height: 127px;
+        position: absolute;
+        top: 0px;
+        left: 0;
+        right: 0;
+        bottom: 212px;
+        margin: auto;
+        vertical-align: top;
+    }
+
+    .mo .sen h3 {
+        width: 50%;
+        height: 30px;
+        position: absolute;
+        top: -35px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        text-align: center;
+        color: red;
+        font-size: 140%;
+        font-weight: bold;
+        z-index: 999;
+    }
+
+    .mo .sen a {
+        width: 26%;
+        height: 50px;
+        background-color: rgb(174, 222, 244);
+        box-shadow: rgba(174, 222, 244, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.0470588) 0px 0px 0px 1px inset;
+        position: absolute;
+        top: 100px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        color: #fff;
+        border-radius: 5px;
+        text-align: center;
+        line-height: 50px;
+        text-decoration: none;
+    }
+
+    .backward {
+        width: 100%;
+        background: #ccc;
+        opacity: 0.5;
+        position: absolute;
+        top: 0;
+
+    }
+
+    .backward span {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        color: #000;
+        font-weight: bold;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        text-align: center;
+        line-height: 100px;
+        font-size: 1000%;
+    }
+    </style>
+    <script src="js/to6r.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="layer_mobile/layer.js"></script>
+    
+    <script type="text/javascript">
+    var luckyMoneyCount = 0;
+    var luckyMoneyAmount = 0;
+    var num = 0;
+    var numz = 4;//开始时间
+
+    $(document).ready(function() {
+        var _$ = function(str) {
+            return document.querySelector(str);
+        };
+        //请求数据
+        var settime=15;
+        var setfen=2;
+        var data=200;
+                if (data == 200) {
+                    _$('#start').style.display = 'block';
+                    _$('#rule').style.display = 'block';
+                    _$('#showbtn').style.display = 'none';
+                  
+                } else if (data == 400) {
+                    alert(data.msg)
+                    _$('#start').style.display = 'none';
+                     _$('#rule').style.display = 'none';
+                    _$('#showbtn').style.display = 'block';
+                } else {
+                    alert("请在微信浏览器打开连接！！")
+                }
+
+
+
+        var win = (parseInt($(".couten").css("width"))) - 60;
+        $(".mo").css("height", $(document).height());
+        $(".couten").css("height", $(document).height());
+        $(".backward").css("height", $(document).height());
+        $("li").css({});
+        // 点击确认的时候关闭模态层
+        $(".sen a").click(function() {
+            $(".mo").css("display", "none")
+        });
+
+        //开始
+        $(".startss").click(function() {
+            backward();
+            setTimeout(add, 3000);
+            setTimeout(timer, 3000);
+
+        });
+        //活动规则
+        $(".ruless").click(function() {
+				layer.open({
+					    type: 1
+					    ,content: '<p>1、每天首次进入商城后会弹出红包雨活动,每点击1个红包会获得1分,点得多分数越高。</p><br/><p>2、10天内分值最高的10名客户将获得本公司提供的旺旺大礼包1份。</p><br/><p>3、 统计数据时间:2019年1月1号到10号,11号到20号,21号到30号共三期,出奖时间:2019年1月11号,21号,31号。</p><br/><p>4、所得奖品自动加入中奖客户购物车中,提交订单时会自动与所选商品一起提交并配送(请在10天内提交订单,过期奖品将自动清除,视为放弃奖品)。</p><br/><p>5、如有分值相同的客户则先达成者先得的原则.本活动最终解释归本公司所有。</p>'
+					    ,anim: 'up'
+					    ,style: 'background-color:rgba(255,255,255,0.2);color: #ffffff; height: 60vh;  width: 90vw; margin: 10vh 5vw 30vh;ext-align: center;'
+					  });
+        });
+        var del = function() {
+            nums++;
+            $(".li" + nums).remove();
+            setTimeout(del, 200)
+        }
+
+        var add = function() {
+            _$('#start').style.display = 'none';
+            _$('#rule').style.display = 'none';
+            var hb = parseInt(Math.random() * (3 - 1) + 1);
+            var Wh = parseInt(Math.random() * (70 - 30) + 20);
+            var Left = parseInt(Math.random() * (win - 0) + 0);
+            var rot = (parseInt(Math.random() * (45 - (-45)) - 45)) + "deg";
+            num++;
+            $(".couten").append("<li class='li" + num + "' ><a href='javascript:;'><img class='liimg" + num + "' src='images/hb_" + hb + ".png'></a></li>");
+            $(".li" + num).css({
+                "left": Left,
+            });
+            $(".li" + num + " a img").css({
+                "width": Wh,
+                "transform": "rotate(" + rot + ")",
+                "-webkit-transform": "rotate(" + rot + ")",
+                "-ms-transform": "rotate(" + rot + ")",
+                /* Internet Explorer */
+                "-moz-transform": "rotate(" + rot + ")",
+                /* Firefox */
+                "-webkit-transform": "rotate(" + rot + ")",
+                /* Safari 和 Chrome */
+                "-o-transform": "rotate(" + rot + ")" /* Opera */
+            });
+            $(".li" + num).animate({ 'top': $(window).height() + 20 }, 5000, function() {
+                //删掉已经显示的红包
+                this.remove()
+            });
+            //点击红包的时候弹出模态层
+            $(".li" + num).click(function() {
+                luckyMoneyCount += 1;
+                luckyMoneyAmount += setfen;
+                _$('.luckyMoneyCount').innerText = luckyMoneyCount;
+                _$('.totalMoney').innerText = luckyMoneyAmount; 
+            });
+            //打开红包效果
+            $('.liimg' + num).click(function() {
+            	$(this).attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABICAMAAABx5AOBAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo0NjFDRDE2ODJEMENFOTExOTM4QThDMTBBRUE5ODgyNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFRjhDM0Q2OTBDRTAxMUU5OEY4MkRBQkU1QkNGOTlBNCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFRjhDM0Q2ODBDRTAxMUU5OEY4MkRBQkU1QkNGOTlBNCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjQ2MUNEMTY4MkQwQ0U5MTE5MzhBOEMxMEFFQTk4ODI2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjQ2MUNEMTY4MkQwQ0U5MTE5MzhBOEMxMEFFQTk4ODI2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+RhZ6RAAAAMBQTFRF+MtO+bJk49UpvRYA0qMc/vf49spy3gAr5DpU9ewuwzQQ63gw7Y2a9ekw1W824ZhP9fEx5QAs887M5qVXzVUm+L5b23507F5IyEMZuwwA6+Ir28gm7XJPvlQM9/ow+PtJ+ejn7rWzwCYK24NC9uI32FZR2mpiwWwN4ixBrVRL3AAk8Ilc9+0yvx4Hzjwx9tk/9uw9/vCD4X15mBoHsRAeuz5Qw1Bj6bVf4BQy+tx634qA1rof+N7eyYkUuB8m////SdAUEgAAAEB0Uk5T////////////////////////////////////////////////////////////////////////////////////AMJ7sUQAAAPuSURBVHja7Jdtd6I8EIYJES2sgdSQNQHrVsCXZUlpu30WrXr6///VTkArtGK7+nzsfTRkksyVSWbkHI2Xdlm3lSzrxCKjzXnwPLuLsJZyprPJ5t8At/07XJfE0WxifRpg9R2F30lNB58EDO7wcanH288A+krhNt1tPgZ8x6cUDT4CPL53ght05CthchKwmR1x91XE/P2xVDQbWG2AwezI6Z0ojt2iELWhaT2jB8DtY9TcWUmppF8wxl3hx7I+WcvoK2DyJnmO8mKPYcfzXM9ngjWDU32rCbCe39y2wxzuugxjL44LFrve29NNN3WA1bw8KX3mMS8ufCndmBVu5HniXU0MDgBrehiPBaQNS6dgEYODK+Ex33PcLnOOV5XR9Jcy9lxWYMU8uALHZQLzWBRxLI5UlbPZAQ7Fo0RcrFwHkiaUx1aFC9sK7LsAbqtsAPQP+4uuLwolvVgKBjnwoFFSp7RFUw3Y1O43KhRmkPlYRhjyIIUvTv405AQA/RpfeuBdRHrEhRS0RF5b/x0Az3WAH6uoKCvSdz5wPgooB5kry3zgMwHYcfBndRwg8YUAfBmgOr/Wa3FKKVtCfAuAXvlGdebz+Y1TuaobbUR7CPw6YMme2ATA2u06DNfbjhlQagcdTdmuA0JpEG4rSDTvwJLOVlSIBkDerAOaZUGo2ySxKaVmGNrUJjnJgGGaW2ceBjBQ0stqawDmJrXtzFgHNogbBFpi6n6CcmizgJBQzxGeQEtDIRsAOQ8osTMzJJmd5AZCnOfEJoGdGBz6BjhBbDYM5cjIE0KoCaV6AEhhUgJzBaxJwANxg3NC9BAYhoEMGwz4AloLTLpuRNCB/Q3EQ9gDHOAIELp2yVGSoER7a+m5HOVJnsMIhRfeHiAdE0Y40kHCI9eAnQ+HO0h2/fsEIUL0lWiLrmuAuR7SAKKj5MkrgHLYch+BBuQaUFpZHh0AW1qGW5RT+pycVNtk2tDXWQK0ZewjIJk4AOAKgJCY1UkT7WWU+97f5xxwxg5gJ9rKq5DuK8DP36DtuJRNq+fYgMD5PXR+/BhTnneRMa6M8TjjoLw0b37/BMCfJ5D41tRw9G04HO4N+Axrc/up0dMTAKyr6+vr3k7p/pmmB6M+0VDau/4PAIve+foCfAH+P8BV2+xSo5fLsmgXx7e5/nMKsOgu0iV8gfLrYZS2AtqOkKa/UDpC2hGh1QlAawS9ZfcK6QB6y153dMYRegu2Qrv4uscjSPsnLxF1H7pouQP0/h2QLq66o8siWD2s+AURQCGshpV/b3VOBDr/i53fYnlOBL00PflS/Rjwob4AX4A94GVydb7g7yv8a7Mu0MvLXwEGAGR8OTCSA32UAAAAAElFTkSuQmCC');
+            	$(this).hide(180, function(){ $(this).remove() });
+                // $(this).attr('src', 'images/f3.png');
+            });
+            setTimeout(add, 360);
+        }
+
+        //得到的时间
+        var t = settime;
+        var timer = function() {
+            t--;
+            if (t >= 0) {
+                _$('.timer').innerText = t;
+            } else if (t == -1) {
+                showPop();
+                pai();
+                $('.couten').remove();
+            } else {
+                return;
+            }
+            setTimeout(timer, 1000)
+
+        }
+
+        //提交分数
+        function pai() {
+            var my_ranking=4;
+                    _$('.myranking').innerText = '第' + my_ranking + '名';
+                    var html = '<div>';
+                    for (var i = 0; i < 4; i++) {
+                        html += '<li><h5>' +(i+1)+'&nbsp;&nbsp;'+ '</h5><h5>张三</h5><h5>40分</h5></li>'
+                    }
+                    html += '</div>';
+                    document.getElementById('demo').innerHTML = html;
+        }
+
+        //弹窗
+        function showPop() {
+            _$('#mask').style.display = 'block';
+            _$('.pop').style.display = 'block';
+            _$('.totalCoin').innerText = luckyMoneyAmount;;
+            _$('.totalluckyMoney').innerText = luckyMoneyCount;
+        }
+        _$('.closeBtn').addEventListener('click', function() {
+            closePop();
+        });
+        _$('.paiming').addEventListener('click', function() {
+            _$('#maskpm').style.display = 'block';
+            pai();
+        });
+
+        function closePop() {
+            _$('#mask').style.display = 'none';
+            _$('.pop').style.display = 'none';
+            _$('#maskpm').style.display = 'block';
+
+        }
+
+        function clo() {
+            _$('#maskpm').style.display = 'none';
+        }
+
+        //倒数计时
+        var backward = function() {
+            numz--;
+            if (numz > 0) {
+                $(".backward span").html(numz);
+            } else {
+                $(".backward").remove();
+            }
+            setTimeout(backward, 1000)
+        }
+
+    })
+    </script>
+</head>
+
+<body>
+    <ul class="couten">
+        <!--<li>
+				<a href="#"><img src="images/hb_1.png"></a>
+			</li>-->
+    </ul>
+    <div class="backward">
+        <span></span>
+    </div>
+    <!-- 赋值 -->
+    <div class="header">
+        <div class="leftBar">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-loudou"></use>
+            </svg>
+            <span class="timer">0</span>
+        </div>
+        <div class="middleBar">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon--jinbi"></use>
+            </svg>
+            <span class="totalMoney">0</span>
+        </div>
+        <div class="rightBar">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-hongbao-"></use>
+            </svg>
+            <span class="luckyMoneyCount">0</span>
+        </div>
+    </div>
+    <div id="mask">
+        <div class="pop">
+            <h3 class="title">总分数</h3>
+            <p class="popCon"><span class="totalCoin">7</span><span class="money">分数</span></p>
+            <p class="popCon">您抢到<span class="totalluckyMoney">1</span>个红包</p>
+            <div class="shareBtn">
+                <!-- 分享 -->
+            </div>
+            <div class="closeBtn"></div>
+        </div>
+    </div>
+    <div id="start">
+        <div class="starts startss">开始</div>
+    </div>
+    <div id="rule">
+        <div class="rules ruless">活动规则</div>
+    </div>
+    <div id="showbtn">
+        <div class="shouye"><a href="https://github.com/LHC087">首页</a></div>
+        <div class="paiming">排名</div>
+    </div>
+    <div id="maskpm">
+        <div class="paimingbang">
+            <h2>分数榜</h2>
+            <h3 class="myranking"></h3>
+            <ul>
+                <li>
+                   <h4>排名</h4> <h4>姓名</h4> <h4>分数</h4>
+                </li>
+                <div id="demo"></div>
+            </ul>
+            
+        </div>
+        <div style="cursor: pointer;text-align: center;display: block;width: 30vw;background: #ff3300;color: #ffffff;border-radius: 10px;line-height: 46px;font-size: 20px;position: absolute;top: 78vh;left: 50%;margin-left: -15vw;box-shadow: 0px 4px 10px rgba(51, 51, 51, 0.8);"><a style="cursor: pointer;color: #ffffff;text-decoration: none;" href="https://github.com/LHC087">关闭</a></div>
+    </div>
+</body>
+
+</html>
