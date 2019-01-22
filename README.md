@@ -4,3 +4,9 @@
 
 # 效果展示
 ![images](https://github.com/LHC087/WeChatLuckyMoney-hongbaoyu/blob/master/images/demo.gif)
+
+# 线上访问地址
+
+（手机版效果更佳）
+
+https://lhc087.github.io/WeChatLuckyMoney-hongbaoyu
